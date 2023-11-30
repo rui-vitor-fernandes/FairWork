@@ -1,5 +1,5 @@
 {
-    "openapi": "3.0.2",
+    "swagger": "2.0",
     "basePath": "/",
     "paths": {
         "/api/v1/workers-allocation": {
