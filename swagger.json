@@ -1,128 +1,90 @@
-{
-    "swagger": "2.0",
-    "basePath": "/",
-    "paths": {
-        "/api/v1/workers-allocation": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "schema": {
-                            "$ref": "#/definitions/OutputModel"
-                        }
-                    }
-                },
-                "summary": "Get allocation results",
-                "description": "This endpoint retrieves allocation results for workers.\n\nReturns:\n    dict: JSON data containing allocation results.",
-                "operationId": "allocate_workers",
-                "parameters": [
-                    {
-                        "name": "X-Fields",
-                        "in": "header",
-                        "type": "string",
-                        "format": "mask",
-                        "description": "An optional fields mask"
-                    }
-                ],
-                "tags": [
-                    "api/v1"
-                ]
-            }
-        },
-        "/swagger": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                },
-                "operationId": "get_swagger",
-                "tags": [
-                    "default"
-                ]
-            }
-        }
-    },
-    "info": {
-        "title": "Fairwork API",
-        "version": "0.1",
-        "description": "API to put forward worker line allocation using ... method"
-    },
-    "produces": [
-        "application/json"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "tags": [
-        {
-            "name": "default",
-            "description": "Default namespace"
-        },
-        {
-            "name": "api/v1",
-            "description": "Version 1 Endpoint"
-        }
-    ],
-    "definitions": {
-        "OutputModel": {
-            "properties": {
-                "AllocationList": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/AllocationModel"
-                    }
-                }
-            },
-            "type": "object"
-        },
-        "AllocationModel": {
-            "properties": {
-                "LineId": {
-                    "type": "string"
-                },
-                "WorkersRequired": {
-                    "type": "integer"
-                },
-                "Workers": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/WorkerModel"
-                    }
-                }
-            },
-            "type": "object"
-        },
-        "WorkerModel": {
-            "properties": {
-                "Id": {
-                    "type": "string"
-                },
-                "Availability": {
-                    "type": "string"
-                },
-                "MedicalCondition": {
-                    "type": "string"
-                },
-                "UTEExperience": {
-                    "type": "string"
-                },
-                "WorkerResilience": {
-                    "type": "number"
-                },
-                "WorkerPreference": {
-                    "type": "number"
-                }
-            },
-            "type": "object"
-        }
-    },
-    "responses": {
-        "ParseError": {
-            "description": "When a mask can't be parsed"
-        },
-        "MaskError": {
-            "description": "When any error occurs on mask"
-        }
-    }
-}
+openapi: 3.0.1
+info:
+  title: Fairwork API
+  description: API to put forward worker line allocation using ... method
+  version: "0.1"
+servers:
+- url: /
+tags:
+- name: default
+  description: Default namespace
+- name: api/v1
+  description: Version 1 Endpoint
+paths:
+  /api/v1/workers-allocation:
+    get:
+      tags:
+      - api/v1
+      summary: Get allocation results
+      description: |-
+        This endpoint retrieves allocation results for workers.
+
+        Returns:
+            dict: JSON data containing allocation results.
+      operationId: allocate_workers
+      parameters:
+      - name: X-Fields
+        in: header
+        description: An optional fields mask
+        schema:
+          type: string
+          format: mask
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutputModel'
+  /swagger:
+    get:
+      tags:
+      - default
+      operationId: get_swagger
+      responses:
+        "200":
+          description: Success
+          content: {}
+components:
+  schemas:
+    OutputModel:
+      type: object
+      properties:
+        AllocationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllocationModel'
+    AllocationModel:
+      type: object
+      properties:
+        LineId:
+          type: string
+        WorkersRequired:
+          type: integer
+        Workers:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkerModel'
+    WorkerModel:
+      type: object
+      properties:
+        Id:
+          type: string
+        Availability:
+          type: string
+        MedicalCondition:
+          type: string
+        UTEExperience:
+          type: string
+        WorkerResilience:
+          type: number
+        WorkerPreference:
+          type: number
+  responses:
+    ParseError:
+      description: When a mask can't be parsed
+      content: {}
+    MaskError:
+      description: When any error occurs on mask
+      content: {}
+x-original-swagger-version: "2.0"
