@@ -1,5 +1,5 @@
 {
-    "swagger": "2.0",
+    "swagger": "3.0.2",
     "basePath": "/",
     "paths": {
         "/api/v1/workers-allocation": {
